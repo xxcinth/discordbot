@@ -1,0 +1,12 @@
+{
+  "name": "discordbot-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm --filter @workspace/api-server run build",
+    "start": "pnpm --filter @workspace/api-server run start",
+    "dev": "pnpm --filter @workspace/api-server run dev"
+  }
+}
+
