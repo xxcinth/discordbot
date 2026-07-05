@@ -43,7 +43,7 @@ function buildOpenContent(date: string): string {
   return [
     `_ _　<@&${STATUS_ROLE_ID}>　　**'s** 　　__status__ 　　<a:04_d_purple_dvd:1518838203187200030>`,
     `_ _ `,
-    `_ _　<a:03_j_pink_arrow:1518793597254766622>　　as　　of 　　{**${date}**} 　　vani　　is　　. . .`,
+    `_ _　<a:03_j_pink_arrow:1518793597254766622>　　as　　of 　　**${date}** 　　vani　　is　　. . .`,
     `_ _　ৎ　　**OPEN** 　: 　go 　to 　<#${COMMS_CHANNEL_ID}>　now!`,
   ].join("\n");
 }
@@ -52,7 +52,7 @@ function buildClosedContent(date: string): string {
   return [
     `_ _　<@&${STATUS_ROLE_ID}>　　**'s** 　　__status__ 　　<a:04_d_purple_dvd:1518838203187200030>`,
     `_ _ `,
-    `_ _　<a:03_j_pink_arrow:1518793597254766622>　　as　　of 　　{**${date}**} 　　vani　　is　　. . .`,
+    `_ _　<a:03_j_pink_arrow:1518793597254766622>　　as　　of 　　**${date}** 　　vani　　is　　. . .`,
     `_ _　ৎ　　**CLOSED** 　: 　please 　wait 　until 　next 　time!`,
   ].join("\n");
 }
