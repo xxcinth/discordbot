@@ -24,6 +24,10 @@ const commands = [
       opt.setName("user").setDescription("The user to remove").setRequired(true)
     )
     .toJSON(),
+  new SlashCommandBuilder()
+    .setName("setup-status")
+    .setDescription("Send the commission status panel to this channel (Admin only)")
+    .toJSON(),
 ];
 
 export async function registerCommands(token: string, clientId: string, guildId: string) {
