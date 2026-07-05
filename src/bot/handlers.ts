@@ -11,6 +11,7 @@ import {
 } from "discord.js";
 import { openTicket, closeTicket } from "./ticketManager.js";
 import { sendTicketPanel } from "./setupPanel.js";
+import { sendStatusPanel, handleStatusButton } from "./status.js";
 import { CLAIM_EMOJI } from "./config.js";
 import {
   handleGfxSelect,
@@ -93,6 +94,8 @@ async function handleButton(interaction: ButtonInteraction) {
     await handlePriorityButton(interaction);
   } else if (interaction.customId.startsWith("wl_status_")) {
     await handleWaitlistStatusButton(interaction);
+  } else if (interaction.customId === "status_open" || interaction.customId === "status_closed") {
+    await handleStatusButton(interaction);
   }
 }
 
@@ -163,6 +166,20 @@ async function handleCommand(interaction: ChatInputCommandInteraction) {
             .setColor(Colors.Red),
         ],
       });
+      break;
+    }
+
+    case "setup-status": {
+      if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
+        await interaction.reply({
+          content: "❌ you need administrator permission to use this.",
+          ephemeral: true,
+        });
+        return;
+      }
+      await interaction.deferReply({ ephemeral: true });
+      await sendStatusPanel(channel);
+      await interaction.editReply({ content: "✅ status panel sent!" });
       break;
     }
   }
