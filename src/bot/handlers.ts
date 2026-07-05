@@ -132,6 +132,13 @@ async function handleCommand(interaction: ChatInputCommandInteraction) {
     }
 
     case "add-user": {
+      if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
+        await interaction.reply({
+          content: "❌ you need administrator permission to use this.",
+          ephemeral: true,
+        });
+        return;
+      }
       const target = interaction.options.getMember("user") as GuildMember;
       if (!target) {
         await interaction.reply({ content: "❌ user not found.", ephemeral: true });
@@ -153,6 +160,13 @@ async function handleCommand(interaction: ChatInputCommandInteraction) {
     }
 
     case "remove-user": {
+      if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
+        await interaction.reply({
+          content: "❌ you need administrator permission to use this.",
+          ephemeral: true,
+        });
+        return;
+      }
       const target = interaction.options.getMember("user") as GuildMember;
       if (!target) {
         await interaction.reply({ content: "❌ user not found.", ephemeral: true });
