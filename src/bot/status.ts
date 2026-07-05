@@ -45,6 +45,7 @@ function buildOpenContent(date: string): string {
     `_ _ `,
     `_ _　<a:03_j_pink_arrow:1518793597254766622>　　as　　of 　　**${date}** 　　vani　　is　　. . .`,
     `_ _　ৎ　　**OPEN** 　: 　go 　to 　<#${COMMS_CHANNEL_ID}>　now!`,
+    `_ _ `,
   ].join("\n");
 }
 
@@ -54,6 +55,7 @@ function buildClosedContent(date: string): string {
     `_ _ `,
     `_ _　<a:03_j_pink_arrow:1518793597254766622>　　as　　of 　　**${date}** 　　vani　　is　　. . .`,
     `_ _　ৎ　　**CLOSED** 　: 　please 　wait 　until 　next 　time!`,
+    `_ _ `,
   ].join("\n");
 }
 
