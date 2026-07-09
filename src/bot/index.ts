@@ -2,6 +2,7 @@ import { Client, GatewayIntentBits, Partials, Events, ActivityType } from "disco
 import { registerCommands } from "./commands.js";
 import { handleInteraction } from "./handlers.js";
 import { handleMessage } from "./waitlist/messageHandler.js";
+import { handleStickyOnMessage } from "./sticky.js";
 import { logger } from "../lib/logger.js";
 
 export function startBot() {
@@ -30,7 +31,11 @@ export function startBot() {
   });
 
   client.on(Events.InteractionCreate, handleInteraction);
-  client.on(Events.MessageCreate, handleMessage);
+
+  client.on(Events.MessageCreate, async (message) => {
+    await handleMessage(message);
+    await handleStickyOnMessage(message);
+  });
 
   client.on(Events.Error, (err) => {
     logger.error({ err }, "Discord client error");
