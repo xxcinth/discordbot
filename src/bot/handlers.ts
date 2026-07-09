@@ -12,6 +12,7 @@ import {
 import { openTicket, closeTicket } from "./ticketManager.js";
 import { sendTicketPanel } from "./setupPanel.js";
 import { sendStatusPanel, handleStatusButton } from "./status.js";
+import { setStickyMessage, REVIEW_STICKY_CONTENT, ASK_STICKY_CONTENT } from "./sticky.js";
 import { CLAIM_EMOJI } from "./config.js";
 import {
   handleGfxSelect,
@@ -106,10 +107,7 @@ async function handleCommand(interaction: ChatInputCommandInteraction) {
   switch (interaction.commandName) {
     case "setup-tickets": {
       if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
-        await interaction.reply({
-          content: "❌ you need administrator permission to use this.",
-          ephemeral: true,
-        });
+        await interaction.reply({ content: "❌ you need administrator permission to use this.", ephemeral: true });
         return;
       }
       await interaction.deferReply({ ephemeral: true });
@@ -120,10 +118,7 @@ async function handleCommand(interaction: ChatInputCommandInteraction) {
 
     case "close-ticket": {
       if (!channel.name.startsWith("ticket-")) {
-        await interaction.reply({
-          content: "❌ this command can only be used inside a ticket channel.",
-          ephemeral: true,
-        });
+        await interaction.reply({ content: "❌ this command can only be used inside a ticket channel.", ephemeral: true });
         return;
       }
       await interaction.deferReply();
@@ -133,67 +128,72 @@ async function handleCommand(interaction: ChatInputCommandInteraction) {
 
     case "add-user": {
       if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
-        await interaction.reply({
-          content: "❌ you need administrator permission to use this.",
-          ephemeral: true,
-        });
+        await interaction.reply({ content: "❌ you need administrator permission to use this.", ephemeral: true });
         return;
       }
-      const target = interaction.options.getMember("user") as GuildMember;
-      if (!target) {
+      const addTarget = interaction.options.getMember("user") as GuildMember;
+      if (!addTarget) {
         await interaction.reply({ content: "❌ user not found.", ephemeral: true });
         return;
       }
-      await channel.permissionOverwrites.create(target.id, {
+      await channel.permissionOverwrites.create(addTarget.id, {
         ViewChannel: true,
         SendMessages: true,
         ReadMessageHistory: true,
       });
       await interaction.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(`✅ ${target} has been added to this ticket.`)
-            .setColor(Colors.Green),
-        ],
+        embeds: [new EmbedBuilder().setDescription(`✅ ${addTarget} has been added to this ticket.`).setColor(Colors.Green)],
       });
       break;
     }
 
     case "remove-user": {
       if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
-        await interaction.reply({
-          content: "❌ you need administrator permission to use this.",
-          ephemeral: true,
-        });
+        await interaction.reply({ content: "❌ you need administrator permission to use this.", ephemeral: true });
         return;
       }
-      const target = interaction.options.getMember("user") as GuildMember;
-      if (!target) {
+      const removeTarget = interaction.options.getMember("user") as GuildMember;
+      if (!removeTarget) {
         await interaction.reply({ content: "❌ user not found.", ephemeral: true });
         return;
       }
-      await channel.permissionOverwrites.delete(target.id);
+      await channel.permissionOverwrites.delete(removeTarget.id);
       await interaction.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(`✅ ${target} has been removed from this ticket.`)
-            .setColor(Colors.Red),
-        ],
+        embeds: [new EmbedBuilder().setDescription(`✅ ${removeTarget} has been removed from this ticket.`).setColor(Colors.Red)],
       });
       break;
     }
 
     case "setup-status": {
       if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
-        await interaction.reply({
-          content: "❌ you need administrator permission to use this.",
-          ephemeral: true,
-        });
+        await interaction.reply({ content: "❌ you need administrator permission to use this.", ephemeral: true });
         return;
       }
       await interaction.deferReply({ ephemeral: true });
       await sendStatusPanel(channel);
       await interaction.editReply({ content: "✅ status panel sent!" });
+      break;
+    }
+
+    case "setup-sticky-review": {
+      if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
+        await interaction.reply({ content: "❌ you need administrator permission to use this.", ephemeral: true });
+        return;
+      }
+      await interaction.deferReply({ ephemeral: true });
+      await setStickyMessage(channel, REVIEW_STICKY_CONTENT);
+      await interaction.editReply({ content: "✅ review sticky set!" });
+      break;
+    }
+
+    case "setup-sticky-ask": {
+      if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
+        await interaction.reply({ content: "❌ you need administrator permission to use this.", ephemeral: true });
+        return;
+      }
+      await interaction.deferReply({ ephemeral: true });
+      await setStickyMessage(channel, ASK_STICKY_CONTENT);
+      await interaction.editReply({ content: "✅ ask sticky set!" });
       break;
     }
   }
