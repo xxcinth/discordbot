@@ -28,6 +28,14 @@ const commands = [
     .setName("setup-status")
     .setDescription("Send the commission status panel to this channel (Admin only)")
     .toJSON(),
+  new SlashCommandBuilder()
+    .setName("setup-sticky-review")
+    .setDescription("Pin the review template sticky to this channel (Admin only)")
+    .toJSON(),
+  new SlashCommandBuilder()
+    .setName("setup-sticky-ask")
+    .setDescription("Pin the ask sticky to this channel (Admin only)")
+    .toJSON(),
 ];
 
 export async function registerCommands(token: string, clientId: string, guildId: string) {
